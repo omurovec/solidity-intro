@@ -15,9 +15,6 @@ contract Token is IERC20 {
     constructor(string memory name_, string memory symbol_) {
         name = name_;
         symbol = symbol_;
-
-        balances[msg.sender] = 100;
-        totalSupply += 100;
     }
 
     function balanceOf(address account) public view override returns (uint256) {
@@ -47,6 +44,13 @@ contract Token is IERC20 {
         require(currentAllowance >= amount, "Amount exceeds allowance");
 
         _approve(sender, msg.sender, currentAllowance - amount);
+
+        return true;
+    }
+
+    function mint(uint256 amount) public returns (bool) {
+        balances[msg.sender] += amount;
+        totalSupply += amount;
 
         return true;
     }
